@@ -1,0 +1,31 @@
+{
+  "name": "FOUNT",
+  "version": "0.1.0",
+  "description": "Fountain pens are an expensive addiction. FOUNT is your #1 destination for expert reviews on the latest fountain pens.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Ben Sampson",
+  "license": "MIT",
+  "dependencies": {
+    "contentful": "^7.0.5",
+    "cross-env": "^5.2.0",
+    "disqus-react": "^1.0.5",
+    "express": "^4.16.4",
+    "moment": "^2.22.2",
+    "next": "^7.0.2",
+    "next-routes": "^1.4.2",
+    "path": "^0.12.7",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-markdown": "^4.0.4",
+    "remove-markdown": "^0.3.0",
+    "serve-favicon": "^2.5.0",
+    "styled-components": "^4.1.2"
+  },
+  "scripts": {
+    "dev": "nodemon server.js",
+    "build": "next build -e",
+    "start": "cross-env NODE_PATH=. NODE_ENV=production node server.js",
+    "export": "npm run build && next export"
+  }
+}
