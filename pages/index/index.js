@@ -174,28 +174,11 @@ const PostLink = styled.a`
 
 class Index extends React.Component {
   static async getInitialProps() {
-    // client.getEntries()
-    //   .then((data) => {
-    //     const posts = data.items.map(({ fields, sys }) => ({
-    //       ...fields,
-    //       id: sys.id,
-    //       createdAt: sys.createdAt,
-    //       contentType: sys.contentType.sys.id,
-    //     }))
-    //       .filter(({ contentType }) => contentType === 'post')
-    //       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-    //     console.log(posts);
-
-    //     return { error: '', dataLoading: false, posts };
-    //   })
-    //   .catch((err) => console.error(err));
-
     const response = await client.getEntries();
 
-    const data = await response.body();
+    console.log(response);
 
-    const posts = data.items.map(({ fields, sys }) => ({
+    const posts = response.items.map(({ fields, sys }) => ({
       ...fields,
       id: sys.id,
       createdAt: sys.createdAt,
@@ -221,7 +204,8 @@ class Index extends React.Component {
             <SocialButton>
               <Icon className="socicon-instagram" />
             </SocialButton>
-            <SocialButton>
+            <SocialButto
+            >
               <Icon className="socicon-twitter" />
             </SocialButton>
             <SocialButton>

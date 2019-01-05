@@ -19,6 +19,7 @@
     "react-dom": "^16.6.3",
     "react-markdown": "^4.0.4",
     "remove-markdown": "^0.3.0",
+    "sbd": "^1.0.14",
     "serve-favicon": "^2.5.0",
     "styled-components": "^4.1.2"
   },

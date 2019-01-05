@@ -6,6 +6,7 @@ import Disqus from 'disqus-react';
 import { withRouter } from 'next/router';
 import Head from 'next/head';
 import removeMd from 'remove-markdown';
+import sbd from 'sbd';
 
 import client from '../../constants/contentful-client';
 
@@ -492,41 +493,33 @@ const NewsletterFormButton = styled.button`
 `;
 
 class Post extends React.Component {
+  static async getInitialProps(context) {
+    const response = await client.getEntries();
+
+    const posts = response.items.map(({ fields, sys }) => {
+      const sentences = sbd.sentences(removeMd(fields.content));
+      return {
+        ...fields,
+        id: sys.id,
+        createdAt: sys.createdAt,
+        contentType: sys.contentType.sys.id,
+        shortened: `${sentences[0]}${sentences[1]}`.replace(/\r?\n|\r/g, '').replace(/  /g, ' '),
+      };
+    })
+      .filter(({ contentType }) => contentType === 'post')
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    const post = posts.find(({ slug }) => slug === context.query.slug);
+    
+    return { error: '', dataLoading: false, post }; 
+  }
+
   state = {
     window: {},
-    error: '',
-    dataLoading: true,
     imageLoading: true,
-    post: {},
     scrollY: 0,
-    // closedNewsletter: false,
     ratingOpen: false,
   };
-
-  componentWillMount() {
-    this.setState({ error: '', dataLoading: true });
-
-    client.getEntries()
-      .then((data) => {
-        console.log(data);
-
-        const posts = data.items.map(({ fields, sys }) => ({
-          ...fields,
-          id: sys.id,
-          createdAt: sys.createdAt,
-          contentType: sys.contentType.sys.id,
-        }))
-          .filter(({ contentType }) => contentType === 'post')
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-        const post = posts.find(({ slug }) => slug === this.props.router.query.slug);
-
-        console.log(post);
-
-        this.setState({ error: '', dataLoading: false, post });
-      })
-      .catch((err) => console.error(err));
-  }
 
   componentDidMount() {
     if (typeof window !== 'undefined') {
@@ -547,8 +540,7 @@ class Post extends React.Component {
   };
 
   render() {
-    const { router } = this.props;
-    const { post } = this.state;
+    const { router, error, dataLoading, post } = this.props;
 
     const disqusShortname = 'fountpens';
     const disqusConfig = {
@@ -561,9 +553,9 @@ class Post extends React.Component {
       <Wrapper>
         <Head>
           <title>{post.name || router.query.slug.replace(/\b\w/g, l => l.toUpperCase()).replace(/-/g, ' ')} — FOUNT</title>
-          <meta name="description" content={`${removeMd(post.content).substring(0, 152)}...`} />
+          <meta name="description" content={post.shortened} />  
         </Head>
-        <Faded on={this.state.dataLoading || this.state.imageLoading} />
+        <Faded on={dataLoading} />
         {/* <Newsletter show={this.state.scrollY > 800 && !this.state.closedNewsletter}>
           <CloseButton onClick={() => this.setState({ closedNewsletter: true })}>
             <IconWhite className="material-icons">close</IconWhite>
@@ -580,7 +572,7 @@ class Post extends React.Component {
             <PostHeader
               show={this.state.scrollY > 400}
               heading={post.name}
-              scrollProgress={(this.state.scrollY + this.state.window.innerHeight) / this.state.window.document.body.clientHeight}
+              scrollProgress={(this.state.scrollY + this.state.window.innerHeight) / this.state.window && this.state.window.document.body.clientHeight}
             />
             <ImageWrapper>
               <Image
