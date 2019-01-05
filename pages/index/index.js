@@ -173,36 +173,45 @@ const PostLink = styled.a`
 `;
 
 class Index extends React.Component {
-  state = {
-    error: '',
-    dataLoading: true,
-    anImageLoading: true,
-    posts: [],
-  };
+  static async getInitialProps() {
+    // client.getEntries()
+    //   .then((data) => {
+    //     const posts = data.items.map(({ fields, sys }) => ({
+    //       ...fields,
+    //       id: sys.id,
+    //       createdAt: sys.createdAt,
+    //       contentType: sys.contentType.sys.id,
+    //     }))
+    //       .filter(({ contentType }) => contentType === 'post')
+    //       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+    //     console.log(posts);
 
-  componentWillMount() {
-    this.setState({ error: '', dataLoading: true });
+    //     return { error: '', dataLoading: false, posts };
+    //   })
+    //   .catch((err) => console.error(err));
 
-    client.getEntries()
-      .then((data) => {
-        const posts = data.items.map(({ fields, sys }) => ({
-          ...fields,
-          id: sys.id,
-          createdAt: sys.createdAt,
-          contentType: sys.contentType.sys.id,
-        }))
-          .filter(({ contentType }) => contentType === 'post')
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const response = await client.getEntries();
 
-        this.setState({ error: '', dataLoading: false, posts });
-      })
-      .catch((err) => console.error(err));
+    const data = await response.body();
+
+    const posts = data.items.map(({ fields, sys }) => ({
+      ...fields,
+      id: sys.id,
+      createdAt: sys.createdAt,
+      contentType: sys.contentType.sys.id,
+    }))
+      .filter(({ contentType }) => contentType === 'post')
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    return { error: '', dataLoading: false, posts }; 
   }
 
   render() {
+    const { dataLoading, error, posts } = this.props;
     return (
       <Wrapper>
-        <Faded on={this.state.dataLoading} />
+        <Faded on={dataLoading} />
         <Header />
         <Section>
           <Title>FOUNT</Title>
@@ -222,7 +231,7 @@ class Index extends React.Component {
         </Section>
         <Section>
           <Posts>
-            {!this.state.dataLoading && this.state.posts.map((post) => {
+            {!dataLoading && posts && posts.length > 0 && posts.map((post) => {
               const { id, name, slug, thumbnail, category } = post;
 
               console.log(post);
