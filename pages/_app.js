@@ -40,8 +40,14 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100%;
   }
 
+  #__next {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
   ::selection {
-    background: #00113B
+    background: #00113B;
     color: #FFF;
   }
 `;

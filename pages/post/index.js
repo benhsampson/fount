@@ -10,6 +10,8 @@ import sbd from 'sbd';
 
 import client from '../../constants/contentful-client';
 
+import Error from '../_error';
+
 import PostHeader from '../../components/PostHeader';
 
 const Wrapper = styled.div`
@@ -164,7 +166,7 @@ const SocialButton = styled.button`
   background: transparent;
   cursor: pointer;
   display: flex;
-  padding: 0.5rem;
+  padding: 0.75rem;
   outline: 0;
   transition: background 0.2s ease;
 
@@ -227,8 +229,13 @@ const Seperator = styled.span`
 `;
 
 const Content = styled.div`
-  h1, h2, h3, h4, h5, h6 {
-    color: rgba(0,0,0,0.8);
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: rgba(0, 0, 0, 0.8);
     font-size: 1.875em;
     font-weight: 600;
     text-align: center;
@@ -236,35 +243,57 @@ const Content = styled.div`
     line-height: 1.3em;
   }
 
+  p {
+    margin-bottom: 1.125rem;
+  }
+
+  li {
+    margin-bottom: 0.75rem;
+  }
+
   p, li {
-    color: rgba(0,0,0,0.6);
+    color: rgba(0, 0, 0, 0.6);
     font-size: 1em;
     line-height: 1.8em;
-    margin-bottom: 1.125rem;
     cursor: text;
   }
 
+  ul {
+    list-style-type: disc;
+    margin-bottom: 1.125rem;
+  }
+
+  ol {
+    list-style-type: decimal;
+    margin-bottom: 1.125rem;
+  }
+
   a {
-    color: #5C73ED;
+    color: #5c73ed;
     text-decoration: none;
     transition: background 0.2s ease;
     font-weight: 500;
     position: relative;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -3px;
       width: 100%;
       height: 1px;
-      border-bottom: 1px dotted #8D9DF7;
+      border-bottom: 1px dotted #8d9df7;
       left: 0;
       right: 0;
     }
 
-    &:hover, &:focus {
-      background: #F2F2FF;
+    &:hover,
+    &:focus {
+      background: #f2f2ff;
     }
+  }
+
+  b, strong {
+    font-weight: 600;
   }
 
   blockquote {
@@ -284,7 +313,7 @@ const Content = styled.div`
 
   code {
     font-family: monospace;
-    color: #FFF;
+    color: #fff;
     line-height: 2em;
   }
 
@@ -297,12 +326,13 @@ const Content = styled.div`
   table {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: #F5F5F5;
+    background: #f5f5f5;
 
     tr {
       display: grid;
 
-      th, td {
+      th,
+      td {
         font-size: 0.875em;
         padding: 1rem;
         text-align: left;
@@ -313,11 +343,11 @@ const Content = styled.div`
       }
 
       th:nth-child(even) {
-        background: #EEE;
+        background: #eee;
       }
 
       td:nth-child(even) {
-        background: #EEE;
+        background: #eee;
       }
     }
   }
@@ -331,14 +361,14 @@ const Content = styled.div`
 
     &:after {
       text-align: center;
-      content: '...';
-      color: rgba(0,0,0,0.6);
+      content: "...";
+      color: rgba(0, 0, 0, 0.6);
       font-size: 2em;
       letter-spacing: 0.6em;
-      font-family: -apple-system, system-ui, BlinkMacSystemFont,
-        'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Open Sans',
-        'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol';
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol";
       margin-right: -12px;
     }
   }
@@ -506,12 +536,12 @@ class Post extends React.Component {
         shortened: `${sentences[0]}${sentences[1]}`.replace(/\r?\n|\r/g, '').replace(/  /g, ' '),
       };
     })
-      .filter(({ contentType }) => contentType === 'post')
+      .filter(({ contentType }) => contentType === 'post' || contentType === 'editorial')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const post = posts.find(({ slug }) => slug === context.query.slug);
     
-    return { error: '', dataLoading: false, post }; 
+    return { error: '', dataLoading: false, post, existingPost: !!post }; 
   }
 
   state = {
@@ -540,16 +570,18 @@ class Post extends React.Component {
   };
 
   render() {
-    const { router, error, dataLoading, post } = this.props;
+    const { router, error, dataLoading, post, existingPost } = this.props;
 
     const disqusShortname = 'fountpens';
-    const disqusConfig = {
+    const disqusConfig = existingPost ? {
       url: this.state.window.location && this.state.window.location.href || 'https://fountpens.com',
       identifier: post.id,
       title: post.name,
-    };
+    } : {};
 
-    return (
+    const isReview = existingPost ? post.contentType === 'review' : false;
+
+    return existingPost ? (
       <Wrapper>
         <Head>
           <title>{post.name || router.query.slug.replace(/\b\w/g, l => l.toUpperCase()).replace(/-/g, ' ')} — FOUNT</title>
@@ -570,70 +602,75 @@ class Post extends React.Component {
         {post && post.id ? (
           <React.Fragment>
             <PostHeader
-              show={this.state.scrollY > 400}
+              show={post.image ? this.state.scrollY > 400 : true}
               heading={post.name}
               scrollProgress={(this.state.scrollY + this.state.window.innerHeight) / this.state.window && this.state.window.document.body.clientHeight}
             />
-            <ImageWrapper>
-              <Image
-                src={post.image.fields.file.url}
-                alt={post.image.fields.title}
-                onLoad={() => this.setState({ imageLoading: false })}
-              />
-              <Title>{post.name}</Title>
-            </ImageWrapper>
+            {post && post.image ? (
+              <ImageWrapper>
+                <Image
+                  src={post.image.fields.file.url}
+                  alt={post.image.fields.title}
+                  onLoad={() => this.setState({ imageLoading: false })}
+                />
+                <Title>{post.name}</Title>
+              </ImageWrapper>
+            ) : ''}
             <Container>
-              <Ratings show={this.state.scrollY > 280}>
-                <RatingsHeader>
-                  <RatingTitle>Rating</RatingTitle>
-                  <ExpansionButton
-                    active={this.state.ratingOpen}
-                    onClick={() => this.setState({ ratingOpen: !this.state.ratingOpen })}
-                  >
-                    <Icon className="material-icons">expand_more</Icon>
-                  </ExpansionButton>
-                </RatingsHeader>
-                <RatingsContent open={this.state.ratingOpen}>
-                  <Rating>
-                    <RatingText>Value</RatingText>
-                    <Bars>
-                      {[...Array(post.rating.fields.value)].map((x, number) => (
-                        <Bar filled key={number} />
-                      ))}
-                      {[...Array(5 - post.rating.fields.value)].map((x, number) => (
-                        <Bar key={number} />
-                      ))}
-                    </Bars>
-                  </Rating>
-                  <Rating>
-                    <RatingText>Quality</RatingText>
-                    <Bars>
-                      {[...Array(post.rating.fields.quality)].map((x, number) => (
-                        <Bar filled key={number} />
-                      ))}
-                      {[...Array(5 - post.rating.fields.quality)].map((x, number) => (
-                        <Bar key={number} />
-                      ))}
-                    </Bars>
-                  </Rating>
-                </RatingsContent>
-              </Ratings>
-              {/* <Socials show={this.state.scrollY > 280}>
+              {post && post.rating ? (
+                <Ratings show={this.state.scrollY > 280}>
+                  <RatingsHeader>
+                    <RatingTitle>Rating</RatingTitle>
+                    <ExpansionButton
+                      title="See our quality and value ratings"
+                      active={this.state.ratingOpen}
+                      onClick={() => this.setState({ ratingOpen: !this.state.ratingOpen })}
+                    >
+                      <Icon className="material-icons">expand_more</Icon>
+                    </ExpansionButton>
+                  </RatingsHeader>
+                  <RatingsContent open={this.state.ratingOpen}>
+                    <Rating>
+                      <RatingText>Value</RatingText>
+                      <Bars>
+                        {[...Array(post.rating.fields.value)].map((x, number) => (
+                          <Bar filled key={number} />
+                        ))}
+                        {[...Array(5 - post.rating.fields.value)].map((x, number) => (
+                          <Bar key={number} />
+                        ))}
+                      </Bars>
+                    </Rating>
+                    <Rating>
+                      <RatingText>Quality</RatingText>
+                      <Bars>
+                        {[...Array(post.rating.fields.quality)].map((x, number) => (
+                          <Bar filled key={number} />
+                        ))}
+                        {[...Array(5 - post.rating.fields.quality)].map((x, number) => (
+                          <Bar key={number} />
+                        ))}
+                      </Bars>
+                    </Rating>
+                  </RatingsContent>
+                </Ratings>
+              ) : ''}
+              <Socials show={this.state.scrollY > 280}>
                 <SocialButton title="Tweet to your followers">
                   <Icon className="socicon-twitter" />
                 </SocialButton>
                 <SocialButton title="Post to Facebook">
                   <Icon className="socicon-facebook" />
                 </SocialButton>
-              </Socials> */}
+              </Socials>
               <MetaText>
                 <Category>{post.category.fields.name}</Category>
                 <Seperator />
                 {moment(post.createdAt).format('MMM Do YY')}
                 <Seperator />
-                <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
+                {isReview && <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
                   Comments
-                </Disqus.CommentCount>
+                </Disqus.CommentCount>}
               </MetaText>
               <Content>
                 <Markdown source={post.content} />
@@ -641,16 +678,16 @@ class Post extends React.Component {
               {post && post.penName && post.affiliateLink ? (
                 <CTA>
                   <CTATitle>Like what you see?</CTATitle>
-                  <CTAText>Using this link to purchase a pen supports us and motivates us to do better :)</CTAText>
+                  <CTAText>Using this link to purchase a pen supports the reviewer and FOUNT :)</CTAText>
                   <CTAButton href={post.affiliateLink} target="_blank">Buy a {post.penName}</CTAButton>
                 </CTA>
               ) : ''}
-              <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+              {isReview && <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />}
             </Container>
           </React.Fragment>
         ) : ''}
       </Wrapper>
-    );
+    ) : (<Error />);
   }
 }
 

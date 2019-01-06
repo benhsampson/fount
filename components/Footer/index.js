@@ -3,86 +3,142 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 
 const Wrapper = styled.footer`
-    background: #EEE;
+	background: #EEE;
     
-    @media (min-width: 768px) {
-        padding: 6rem;
-    }
+	@media (min-width: 768px) {
+		padding: 3rem 6rem;
+	}
     
-    @media (max-width: 768px) {
-        padding: 3rem;
-    }
+	@media (max-width: 768px) {
+		padding: 3rem;
+	}
 `;
 
 const Container = styled.div`
-    max-width: 900px;
-    width: 100%;
-    margin: 0 auto;
+	max-width: 1200px;
+	width: 100%;
+	margin: 0 auto;
 `;
 
 const Sections = styled.div`
-    display: grid;
-    
-    @media (min-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 3rem;
-    }
-    
-    @media (max-width: 768px) {
-        grid-gap: 1.5rem;
-    }
+	display: grid;
+	
+	@media (min-width: 768px) {
+		grid-auto-flow: column;
+		grid-gap: 3rem;
+	}
+	
+	@media (max-width: 768px) {
+		grid-gap: 1.5rem;
+	}
 `;
 
 const Section = styled.div`
-      display: flex;
-      flex-direction: colum;n
+	display: flex;
+	flex-direction: column;
 `;
 
 const Heading = styled.h6`
-    font-size: 1.25em;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-family: Raleway, sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+`;
+
+const Subheading = styled.p`
+	color: rgba(0,0,0,0.6);
+	line-height: 1.8em;
 `;
 
 const Links = styled.ul`
-      display: flex;
-      flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `;
 
 const LinkItem = styled.li`
-    &:not(first-child) {
-        margin-bottom: .75rem;
-    }
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+
+  &:not(first-child) {
+    margin-bottom: 0.75rem;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 `;
 
 const Link = ({ children, ...props }) => (
-    <NextLink {...props}>
-        <LinkItem>{children}</LinkItem>
-    </NextLink>
+	<NextLink {...props}>
+		<LinkItem>{children}</LinkItem>
+	</NextLink>
+);
+
+const UnstyledLink = styled.a`
+	color: inherit;
+	text-decoration: inherit;
+`;
+
+const LinkHref = ({ children, ...props }) => (
+	<UnstyledLink {...props}>
+		<LinkItem>{children}</LinkItem>
+	</UnstyledLink>
 );
 
 const Footer = () => (
-    <Wrapper>
-        <Container>
-            <Sections>
-                <Section>
-                    <Heading>Addicts</Heading>
-                    <Links>
-                        <Link>About</Link>
-                        <Link>The FOUNT Difference</Link>
-                        <Link>Fountain Pens 101</Link>
-                        <Link>Terms</Link>
-                    </Links>
-                    <Heading>Reviewers</Heading>
-                    <Links>
-                        <Link>Submit a review</Link>
-                        <Link>Editorial guidelines</Link>
-                    </Links>
-                </Section>
-            </Sections>
-        </Container>
-    </Wrapper>
+  <Wrapper>
+    <Container>
+      <Sections>
+        <Section>
+          <Heading>FOUNT</Heading>
+          <Subheading>
+            Fountain pens are an expensive addiction.
+            <br />
+            Get the right purchasing advise from expert reviewers.
+          </Subheading>
+        </Section>
+        <Section>
+          <Heading>Addicts</Heading>
+          <Links>
+            <Link href="/p/about">About</Link>
+            <Link href="/p/our-difference">The FOUNT Difference</Link>
+            {/* TODO: This */}
+            {/* <Link href="/p/fountain-pens-101">Fountain Pens 101</Link> */}
+            {/* TODO: This */}
+            {/* <Link href="/p/glossary">Glossary of Terms</Link> */}
+          </Links>
+        </Section>
+        <Section>
+          <Heading>Reviewers</Heading>
+          <Links>
+            <LinkHref
+              href="https://goo.gl/forms/o4UpWWkTHdLWLlOh2"
+              target="_blank"
+            >
+              Submit a review
+            </LinkHref>
+            <Link href="/p/editorial-guidelines">Editorial guidelines</Link>
+            <Link href="/p/revenue-sharing">Revenue sharing</Link>
+          </Links>
+        </Section>
+        <Section>
+          <Heading>Socials</Heading>
+          <Links>
+            <UnstyledLink href="https://www.instagram.com/fountpens">
+              Instagram
+            </UnstyledLink>
+            <UnstyledLink href="https://www.pinterest.com.au/0er9kbsq9bmwbsvhtawz6clyczq9rz">
+              Pinterest
+            </UnstyledLink>
+          </Links>
+        </Section>
+      </Sections>
+    </Container>
+  </Wrapper>
 );
 
 export default Footer;

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import moment from 'moment';
 
@@ -40,6 +40,52 @@ const Section = styled.section`
   padding: 3rem;
 `;
 
+const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+`;
+
+const SortBy = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0.5rem;
+  justify-content: flex-start;
+`;
+
+const buttonStyles = (selected) => `
+  background: ${selected ? "#F5F5F5" : "transparent"};
+  border-radius: 0;
+  border: 0;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  font-weight: 600;
+  height: 2rem;
+  border-radius: 1rem;
+  min-width: 6rem;
+  outline: none;
+  width: 100%;
+
+  &:hover, &:focus {
+    background: #F5F5F5;
+  }
+`;
+
+const SortByOption = styled.button`
+  ${({ selected }) => buttonStyles(selected)};
+`;
+
+const ArticleCategories = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0.5rem;
+  justify-content: flex-end;
+`;
+
+const ArticleCategoryOption = styled.button`
+  ${({ selected }) => buttonStyles(selected)};
+`;
+
 const Title = styled.h1`
   color: rgba(0,0,0,0.9);
   font-size: 4em;
@@ -61,7 +107,12 @@ const Socials = styled.div`
   grid-auto-flow: column;
   grid-gap: 1rem;
   justify-content: flex-start;
-  margin-left: -0.5rem;
+  margin-left: -0.75rem;
+`;
+
+const UnstyledLink = styled.a`
+  color: inherit;
+  text-decoration: inherit;
 `;
 
 const SocialButton = styled.button`
@@ -70,7 +121,7 @@ const SocialButton = styled.button`
   background: transparent;
   cursor: pointer;
   display: flex;
-  padding: 0.5rem;
+  padding: 0.75rem;
   outline: 0;
   transition: background 0.2s ease;
 
@@ -80,8 +131,8 @@ const SocialButton = styled.button`
 `;
 
 const Icon = styled.span`
-  color: rgba(0,0,0,0.7);
-  font-size: 1.25em;
+  color: rgba(0,0,0,0.6);
+  font-size: 1.5em;
 `;
 
 const Posts = styled.div`
@@ -187,69 +238,133 @@ class Index extends React.Component {
       .filter(({ contentType }) => contentType === 'post')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     
-    return { error: '', dataLoading: false, posts }; 
+    const sortByOptions = [
+      {
+        id: '1',
+        label: 'Recent',
+        selected: true,
+      },
+      {
+        id: '2',
+        label: 'Popular',
+        selected: false,
+      },
+      {
+        id: '3',
+        label: '$ Any price',
+        selected: false,
+      },
+    ];
+
+    const articleCategoryOptions = [
+      {
+        id: '3',
+        label: 'Reviews',
+        selected: true,
+      },
+      {
+        id: '4',
+        label: 'Guides',
+        selected: false,
+      },
+    ];
+    
+    return {
+      error: '',
+      dataLoading: false,
+      posts,
+      sortByOptions,
+      articleCategoryOptions,
+    }; 
   }
 
   render() {
-    const { dataLoading, error, posts } = this.props;
-    return (
-      <Wrapper>
+    const {
+      dataLoading,
+      error,
+      posts,
+      sortByOptions,
+      articleCategoryOptions,
+    } = this.props;
+    return <Wrapper>
         <Faded on={dataLoading} />
         <Header />
         <Section>
           <Title>FOUNT</Title>
-          {/* <SubTitle></SubTitle> */}
-          <Text>For the novice or the seasoned collector, get helpful reviews of professional writing instruments.<br /><br />Find the best advice on high-end luxury fountain pens.</Text>
-          {/* <Socials>
-            <SocialButton>
-              <Icon className="socicon-instagram" />
-            </SocialButton>
-            <SocialButto
-            >
-              <Icon className="socicon-twitter" />
-            </SocialButton>
-            <SocialButton>
-              <Icon className="socicon-pinterest" />
-            </SocialButton>
-          </Socials> */}
+          <Text>
+            For the novice or the seasoned collector, get helpful reviews of professional writing instruments.
+            <br />
+            <br />
+            Find the best advice on high-end luxury fountain pens.
+          </Text>
+          <Socials>
+            {/* TODO: this */}
+            <UnstyledLink href="https://www.instagram.com/fountpens">
+              <SocialButton color="red">
+                <Icon className="socicon-instagram icon" />
+              </SocialButton>
+            </UnstyledLink>
+            {/* TODO: this */}
+            <UnstyledLink href="https://www.pinterest.com.au/0er9kbsq9bmwbsvhtawz6clyczq9rz">
+              <SocialButton color="orange">
+                <Icon className="socicon-pinterest icon" />
+              </SocialButton>
+            </UnstyledLink>
+          </Socials>
         </Section>
         <Section>
+          {/* <Actions>
+            <SortBy>
+              {sortByOptions.map(({ id, label, selected }) => (
+                <SortByOption key={id} selected={selected}>
+                  {label}
+                </SortByOption>
+              ))}
+            </SortBy>
+            <ArticleCategories>
+              {articleCategoryOptions.map(({ id, label, selected }) => (
+                <ArticleCategoryOption key={id} selected={selected}>
+                  {label}
+                </ArticleCategoryOption>
+              ))}
+            </ArticleCategories>
+          </Actions> */}
           <Posts>
-            {!dataLoading && posts && posts.length > 0 && posts.map((post) => {
-              const { id, name, slug, thumbnail, category } = post;
+            {!dataLoading && posts && posts.length > 0 && posts.map(
+                post => {
+                  const { id, name, slug, thumbnail, category } = post;
 
-              console.log(post);
+                  console.log(post);
 
-              const shortenedCategory = {
-                '7bOxiRpxPGoIGWgYKEusa6': 'Review',
-                '3rrr1DfOlqwk6YcSasesSo': 'List',
-              }[category.sys.id];
+                  const shortenedCategory = {
+                    "7bOxiRpxPGoIGWgYKEusa6": "Review",
+                    "3rrr1DfOlqwk6YcSasesSo": "List"
+                  }[category.sys.id];
 
-              return (
-                <Post key={id}>
-                  <Link href={`/p/${slug}`}>
-                    <PostLink>
-                      <PostOverlay className="overlay">
-                        <PostTitle>{name}</PostTitle>
-                        <PostCategory>
-                          <B>{shortenedCategory}</B>
-                          {' '}·{' '}
-                          {moment(post.createdAt).format('MMM Do YY')}
-                        </PostCategory>
-                      </PostOverlay>
-                      <PostImage
-                        src={thumbnail.fields.file.url}
-                        alt={thumbnail.fields.title}
-                      />
-                    </PostLink>
-                  </Link>
-                </Post>
-              );
-            })}
+                  return (
+                    <Post key={id}>
+                      <Link href={`/p/${slug}`}>
+                        <PostLink>
+                          <PostOverlay className="overlay">
+                            <PostTitle>{name}</PostTitle>
+                            <PostCategory>
+                              <B>{shortenedCategory}</B> ·{" "}
+                              {moment(post.createdAt).format("MMM Do YY")}
+                            </PostCategory>
+                          </PostOverlay>
+                          <PostImage
+                            src={thumbnail.fields.file.url}
+                            alt={thumbnail.fields.title}
+                          />
+                        </PostLink>
+                      </Link>
+                    </Post>
+                  );
+                }
+              )}
           </Posts>
         </Section>
-      </Wrapper>
-    );
+      </Wrapper>;
   }
 }
 
