@@ -128,12 +128,12 @@ const Footer = () => (
         <Section>
           <Heading>Socials</Heading>
           <Links>
-            <UnstyledLink href="https://www.instagram.com/fountpens">
+            <LinkHref href="https://www.instagram.com/fountpens">
               Instagram
-            </UnstyledLink>
-            <UnstyledLink href="https://www.pinterest.com.au/0er9kbsq9bmwbsvhtawz6clyczq9rz">
+            </LinkHref>
+            <LinkHref href="https://www.pinterest.com.au/0er9kbsq9bmwbsvhtawz6clyczq9rz">
               Pinterest
-            </UnstyledLink>
+            </LinkHref>
           </Links>
         </Section>
       </Sections>
