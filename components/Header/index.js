@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 const Wrapper = styled.header`
   background: #FAFAFA;
@@ -13,10 +14,12 @@ const Container = styled.div`
   margin: 0 auto;
   height: 100%;
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 3rem;
 
   @media (min-width: 768px) {
-    padding: 1rem 9rem;
+    padding: 1rem 6rem;
     justify-content: flex-end;
   }
 
@@ -25,6 +28,28 @@ const Container = styled.div`
     justify-content: center;
   }
 `;
+
+const NavItemWrapper = styled.div`
+  color: rgba(0,0,0,0.8);
+  cursor: pointer;
+  font-size: 0.875em;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1;
+`;
+
+const NavItem = ({ children, ...props }) => (
+  <Link {...props}>
+    <NavItemWrapper>
+      {children}
+    </NavItemWrapper>
+  </Link>
+);
 
 const Button = styled.a`
   text-decoration: none;
@@ -44,6 +69,12 @@ const Button = styled.a`
 const Header = () => (
   <Wrapper>
     <Container>
+      <NavItem href="/p/about">
+        Start here
+      </NavItem>
+      <NavItem href="/p/editorial-guidelines">
+        Become a reviewer
+      </NavItem>
       <Button href="https://goo.gl/forms/o4UpWWkTHdLWLlOh2" target="_blank">
         Submit your review
       </Button>

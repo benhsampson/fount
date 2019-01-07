@@ -707,7 +707,7 @@ class Post extends React.Component {
                   </SocialButton>
                 </TwitterShareButton>
                 <FacebookShareButton
-                  quote={post.name}
+                  quote ={post.name}
                   url={this.state.window.location && this.state.window.location.href || 'https://fountpens.com'}
                 >
                   <SocialButton title="Post to your friends">
