@@ -698,12 +698,22 @@ class Post extends React.Component {
                 </Ratings>
               ) : ''}
               <Socials show={this.state.scrollY > 280}>
-                <SocialButton title="Tweet to your followers">
-                  <Icon className="socicon-twitter" />
-                </SocialButton>
-                <SocialButton title="Post to Facebook">
-                  <Icon className="socicon-facebook" />
-                </SocialButton>
+                <TwitterShareButton
+                  title={post.name}
+                  url={this.state.window.location && this.state.window.location.href || 'https://fountpens.com'}
+                >
+                  <SocialButton title="Tweet to your followers">
+                    <Icon className="socicon-twitter" />
+                  </SocialButton>
+                </TwitterShareButton>
+                <FacebookShareButton
+                  quote={post.name}
+                  url={this.state.window.location && this.state.window.location.href || 'https://fountpens.com'}
+                >
+                  <SocialButton title="Post to your friends">
+                    <Icon className="socicon-facebook" />
+                  </SocialButton>
+                </FacebookShareButton>
               </Socials>
               <MetaText>
                 <Category>{post.category.fields.name}</Category>
