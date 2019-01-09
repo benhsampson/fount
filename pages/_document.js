@@ -14,8 +14,7 @@ class MyDocument extends Document {
   }
 
   render() {
-    return (
-      <html>
+    return <html>
         <Head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -24,6 +23,9 @@ class MyDocument extends Document {
 
           <title>FOUNT — Reviews of Luxury Writing Instruments</title>
           <meta name="description" content="Fountain pens are an expensive addiction. FOUNT is your #1 destination for expert reviews on the latest fountain pens." />
+
+          <link rel="shortcut icon" type="image/png" href="/static/brand/favicon.png" />
+          <link rel="shortcut icon" type="image/png" href="http://fountpens.com/static/brand/favicon.png" />
 
           <link rel="stylesheet" href="https://d1azc1qln24ryf.cloudfront.net/114779/Socicon/style-cf.css?9ukd8d" />
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -90,8 +92,7 @@ class MyDocument extends Document {
           ` }} />
           {/* END DRIFT */}
         </body>
-      </html>
-    );
+      </html>;
   }
 }
 

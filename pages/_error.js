@@ -51,20 +51,43 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const UnstyledLink = styled.a`
+  color: #5c73ed;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  font-weight: 500;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dotted #8d9df7;
+    left: 0;
+    right: 0;
+  }
+
+  &:hover,
+  &:focus {
+    background: #f2f2ff;
+  }
+`;
+
 const Error = ({ router }) => (
   <Wrapper>
     <Container>
       <Heading>404 Error</Heading>
-      {/* TODO: Fix the links here */}
-      <Subheading>If something is broken, we'd love to fix it. You can send us an email or let us know on Twitter.</Subheading>
+      <Subheading>If something is broken, we'd love to fix it. Contact us in the chatbox to the bottom left or <UnstyledLink href="mailto:ben@fountpens.com">email me.</UnstyledLink></Subheading>
+    </Container>
+    <Banner>
+      <Container>
+        <Button onClick={() => router.back()}>
+          Go back
+        </Button>
       </Container>
-      <Banner>
-        <Container>
-          <Button onClick={() => router.back()}>
-            Go back
-          </Button>
-        </Container>
-      </Banner>
+    </Banner>
   </Wrapper>
 );
 

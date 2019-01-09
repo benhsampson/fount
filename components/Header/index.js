@@ -19,7 +19,7 @@ const Container = styled.div`
   grid-gap: 3rem;
 
   @media (min-width: 768px) {
-    padding: 1rem 6rem;
+    padding: 1rem 9rem;
     justify-content: flex-end;
   }
 

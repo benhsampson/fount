@@ -15,7 +15,7 @@ app.prepare()
     const server = express();
     server.use(handler);
 
-    // server.use(favicon(path.join(__dirname, 'static', 'brand', 'favicon.png')));
+    server.use(favicon(path.join(__dirname, 'static', 'brand', 'favicon.png')));
 
     server.get('*', (req, res) => {
       return handle(req, res);
