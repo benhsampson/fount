@@ -112,7 +112,7 @@ const Socials = styled.div`
 
 const UnstyledLink = styled.a`
   color: inherit;
-  text-decoration: inherit;
+  text-decoration: inherit
 `;
 
 const SocialButton = styled.button`
