@@ -7,6 +7,7 @@ import { withRouter } from 'next/router';
 import Head from 'next/head';
 import removeMd from 'remove-markdown';
 import sbd from 'sbd';
+import { TwitterShareButton, FacebookShareButton } from 'react-share';
 
 import client from '../../constants/contentful-client';
 
@@ -71,9 +72,9 @@ const Ratings = styled.div`
   opacity: ${({ show }) => show ? 1 : 0};
   transition: opacity 0.3s ease;
   z-index: 1;
-  background: #F5F5F5;
   border-radius: 2px;
   overflow: hidden;
+  max-width: 13rem;
 `;
 
 const RatingsHeader = styled.header`
@@ -113,9 +114,11 @@ const ExpansionButton = styled.button`
 `;
 
 const RatingsContent = styled.div`
+  background: #F5F5F5;
   display: flex;
   flex-direction: column;
   height: ${({ open }) => open ? 'auto' : 0};
+  opacity: ${({ open }) => open ? 1 : 0};
   transition: height 0.2s ease;
 `;
 
@@ -522,6 +525,33 @@ const NewsletterFormButton = styled.button`
   padding: 0 2rem;
 `;
 
+const NewsletterBox = styled.div`
+  padding: 3rem 1rem 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const NewsletterPitch = styled.p`
+  color: rgba(0,0,0,0.6);
+  font-size: 0.875em;
+  margin-bottom: 0.75rem;
+`;
+
+const NewsletterButton = styled.button`
+  color: #444;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #666;
+  background: transparent;
+  border-radius: 2px;
+  cursor: pointer;
+`;
+
+const UnstyledA = styled.a`
+  color: inherit;
+  text-decoration: inherit;
+`;
+
 class Post extends React.Component {
   static async getInitialProps(context) {
     const response = await client.getEntries();
@@ -601,6 +631,8 @@ class Post extends React.Component {
         </Newsletter> */}
         {post && post.id ? (
           <React.Fragment>
+            {/* NEWSLETTER */}
+            <script async data-uid="0a20fd51cd" src="https://f.convertkit.com/0a20fd51cd/cf9f0df5f3.js"></script>
             <PostHeader
               show={post.image ? this.state.scrollY > 400 : true}
               heading={post.name}
@@ -653,15 +685,35 @@ class Post extends React.Component {
                       </Bars>
                     </Rating>
                   </RatingsContent>
+                  <NewsletterBox>
+                <NewsletterPitch>
+                  Want to the most helpful reviews in your inbox every week?
+                </NewsletterPitch>
+                <UnstyledA data-formkit-toggle="0a20fd51cd" href="https://pages.convertkit.com/0a20fd51cd/cf9f0df5f3">
+                  <NewsletterButton>
+                    Sign up
+                  </NewsletterButton>
+                </UnstyledA>
+              </NewsletterBox>
                 </Ratings>
               ) : ''}
               <Socials show={this.state.scrollY > 280}>
-                <SocialButton title="Tweet to your followers">
-                  <Icon className="socicon-twitter" />
-                </SocialButton>
-                <SocialButton title="Post to Facebook">
-                  <Icon className="socicon-facebook" />
-                </SocialButton>
+                <TwitterShareButton
+                  title={post.name}
+                  url={this.state.window.location && this.state.window.location.href || 'https://fountpens.com'}
+                >
+                  <SocialButton title="Tweet to your followers">
+                    <Icon className="socicon-twitter" />
+                  </SocialButton>
+                </TwitterShareButton>
+                <FacebookShareButton
+                  quote ={post.name}
+                  url={this.state.window.location && this.state.window.location.href || 'https://fountpens.com'}
+                >
+                  <SocialButton title="Post to your friends">
+                    <Icon className="socicon-facebook" />
+                  </SocialButton>
+                </FacebookShareButton>
               </Socials>
               <MetaText>
                 <Category>{post.category.fields.name}</Category>
