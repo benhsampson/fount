@@ -95,7 +95,7 @@ const Title = styled.h1`
   line-height: 1em;
 `;
 
-const Text = styled.p`
+const Text = styled.h2`
   color: rgba(0,0,0,0.6);
   font-size: 1.2em;
   line-height: 1.6em;
