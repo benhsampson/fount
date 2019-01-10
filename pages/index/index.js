@@ -23,10 +23,6 @@ const Wrapper = styled.div`
     grid-template-columns: minmax(auto, 400px) 1fr;
     padding: 6rem 3rem;
   }
-
-  @media (max-width: 768px) {
-    padding-top: 6rem;
-  }
 `;
 
 const Faded = styled.div`
@@ -46,17 +42,37 @@ const Section = styled.section`
 
 const Actions = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-gap: 1.5rem;
   margin-bottom: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 const SortBy = styled.div`
   display: flex;
-  align-items: center;
 
   .rc-slider {
     flex: 1;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  @media (min-width: 768px) {
+    align-items: center;
+  }
+`;
+
+const SortByOptions = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -66,7 +82,10 @@ const PriceRangeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin-left: 0.5rem;
+
+  @media (min-width: 768px) {
+    margin-left: 1rem;
+  }
 `;
 
 const PriceRangeLabel = styled.p`
@@ -111,7 +130,10 @@ const ArticleCategories = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 0.5rem;
-  justify-content: flex-end;
+
+  @media (min-width: 768px) {
+    justify-content: flex-end;
+  }
 `;
 
 const ArticleCategoryOption = styled.button`
@@ -359,6 +381,7 @@ class Index extends React.Component {
         <Section>
           <Actions>
             <SortBy>
+              <SortByOptions>
               {sortByOptions.map(({ id, label }) => (
                 <SortByOption
                   key={id}
@@ -368,6 +391,7 @@ class Index extends React.Component {
                   {label}
                 </SortByOption>
               ))}
+              </SortByOptions>
               <PriceRangeWrapper>
                 <PriceRangeLabel>Price range $</PriceRangeLabel>
                 <Range

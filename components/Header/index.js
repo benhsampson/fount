@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 const Wrapper = styled.header`
-  background: #FAFAFA;
-  position: fixed;
+  background: #fafafa;
   width: 100%;
-  top: 0;
   z-index: 2;
+
+  @media (min-width: 768px) {
+    position: fixed;
+    top: 0;
+  }
 `;
 
 const Container = styled.div`
@@ -15,17 +18,18 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   display: grid;
-  grid-auto-flow: column;
-  grid-gap: 3rem;
 
   @media (min-width: 768px) {
     padding: 1rem 9rem;
+    grid-auto-flow: column;
     justify-content: flex-end;
+    grid-gap: 3rem;
   }
 
   @media (max-width: 768px) {
     padding: 1rem 3rem;
     justify-content: center;
+    grid-gap: 1.5rem;
   }
 `;
 

@@ -108,7 +108,7 @@ class PostHeader extends React.Component {
     return (
       <Wrapper show={show}>
         <ProgressBar progress={scrollProgress} />
-        <Link href="/"><NavLink><Brand>Fount</Brand></NavLink></Link>
+        <NavLink href="https://fountpens.com"><Brand>Fount</Brand></NavLink>
         <Heading>{heading}</Heading>
       </Wrapper>
     );
