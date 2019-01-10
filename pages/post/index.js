@@ -69,7 +69,6 @@ const Ratings = styled.div`
   transition: opacity 0.3s ease;
   z-index: 1;
   border-radius: 2px;
-  overflow: hidden;
 
   @media (min-width: 768px) {
     position: fixed;
@@ -453,110 +452,12 @@ const CTAButton = styled.a`
   }
 `;
 
-const Newsletter = styled.div`
-  background: #292F38;
-  padding: 1.5rem;
-  border-radius: 4px;
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-  z-index: 3;
-  box-shadow: 0 2px 10px 2px rgba(0,0,0,0.1);
-  opacity: ${({ show }) => show ? 1 : 0};
-  transition: opacity 0.2s ease;
-`;
-
-const CloseButton = styled.button`
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  padding: 0.5rem;
-  outline: 0;
-  transition: all 0.2s ease;
-  position: absolute;
-  right: 0.25rem;
-  top: 0.25rem;
-
-  &:hover {
-    background: rgba(255,255,255,0.05);
-    transform: rotate(90deg);
-  }
-`;
-
-const IconWhite = styled.i`
-  font-size: 1.25em;
-  color: #FFF;
-`;
-
-const NewsletterHeading = styled.h3`
-  color: #FFF;
-  font-weight: 600;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Open Sans',
-    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-size: 1.25em;
-  line-height: 1.3em;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-`;
-
-const NewsletterText = styled.p`
-  color: #FFF;
-  font-family: Muli, -apple-system, system-ui, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Open Sans',
-    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-  margin-bottom: 1rem;
-  font-size: 0.875em;
-  font-weight: 300;
-`;
-
-const NewsletterForm = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: 0.5rem;
-  height: 2rem;
-`;
-
-const NewsletterFormInput = styled.input`
-  background: #FFF;
-  border: 0;
-  border-radius: 4px;
-  font-family: Muli, -apple-system, system-ui, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Open Sans',
-    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-  outline: 0;
-  padding: 0 0.75rem;
-
-  ::placeholder {
-    color: rgba(0,0,0,0.5);
-  }
-`;
-
-const NewsletterFormButton = styled.button`
-  background: #FFF;
-  color: rgba(0,0,0,0.8);
-  border: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: 0;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Open Sans',
-    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-weight: 500;
-  padding: 0 2rem;
-`;
-
 const NewsletterBox = styled.div`
-  padding: 3rem 1rem 1rem;
+  margin-top: 2rem;
   width: 100%;
   display: flex;
   flex-direction: column;
+  text-align: center;
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -600,6 +501,24 @@ const UnstyledA = styled.a`
   text-decoration: inherit;
 `;
 
+const CTASidebar = styled.div`
+  /* TODO: don't display on mobile */
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    padding: 1rem;
+    background: #eee;
+    border-radius: 2px;
+    border-top: 3px solid #f95f5f;
+    display: flex;
+    flex-direction: column;
+    margin: 2rem -1rem -1rem;
+  }
+`;
+
 class Post extends React.Component {
   static async getInitialProps(context) {
     const response = await client.getEntries();
@@ -626,7 +545,7 @@ class Post extends React.Component {
     window: {},
     imageLoading: true,
     scrollY: 0,
-    ratingOpen: false,
+    ratingOpen: true,
   };
 
   componentDidMount() {
@@ -657,6 +576,7 @@ class Post extends React.Component {
       title: post.name,
     } : {};
 
+    {/* TODO: The content type is never "review" */}
     const isReview = existingPost ? post.contentType === 'review' : false;
 
     const title = post.name || router.query.slug
@@ -763,6 +683,10 @@ class Post extends React.Component {
                       </Bars>
                     </Rating>
                   </RatingsContent>
+                  <CTASidebar>
+                    <CTAText>Interested in buying? Using this link supports the reviewer.</CTAText>
+                    <CTAButton href={post.affiliateLink} target="_blank">Buy a {post.penName}</CTAButton>
+                  </CTASidebar>
                   <NewsletterBox>
                     <NewsletterPitch>
                       Want to the most helpful reviews in your inbox every

@@ -2,10 +2,14 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import moment from 'moment';
+import Slider from 'rc-slider';
+import Tooltip from 'rc-tooltip';
 
 import client from '../../constants/contentful-client';
 
 import Header from '../../components/Header';
+
+import 'rc-slider/assets/index.css';
 
 const Wrapper = styled.div`
   background: #FAFAFA;
@@ -41,19 +45,43 @@ const Section = styled.section`
 `;
 
 const Actions = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1.5rem;
   margin-bottom: 1.5rem;
 `;
 
 const SortBy = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 0.5rem;
-  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+
+  .rc-slider {
+    flex: 1;
+  }
 `;
 
+const PriceRangeWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 0.5rem;
+`;
+
+const PriceRangeLabel = styled.p`
+  font-size: 0.625em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(0,0,0,0.6);
+`;
+
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
+
 const buttonStyles = (selected) => `
+  flex: 0;
   background: ${selected ? "#F5F5F5" : "transparent"};
   border-radius: 0;
   border: 0;
@@ -68,6 +96,10 @@ const buttonStyles = (selected) => `
 
   &:hover, &:focus {
     background: #F5F5F5;
+  }
+
+  &:not(:last-child) {
+    margin-right: 0.75rem;
   }
 `;
 
@@ -229,43 +261,36 @@ class Index extends React.Component {
 
     console.log(response);
 
-    const posts = response.items.map(({ fields, sys }) => ({
-      ...fields,
-      id: sys.id,
-      createdAt: sys.createdAt,
-      contentType: sys.contentType.sys.id,
-    }))
-      .filter(({ contentType }) => contentType === 'post')
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const posts = response.items
+      .map(({ fields, sys }) => ({
+        ...fields,
+        id: sys.id,
+        createdAt: sys.createdAt,
+        contentType: sys.contentType.sys.id
+      }))
+      .filter(({ contentType }) => contentType === "post");
     
     const sortByOptions = [
       {
         id: '1',
         label: 'Recent',
-        selected: true,
       },
       {
         id: '2',
         label: 'Popular',
-        selected: false,
-      },
-      {
-        id: '3',
-        label: '$ Any price',
-        selected: false,
       },
     ];
 
     const articleCategoryOptions = [
       {
-        id: '3',
+        id: '1',
         label: 'Reviews',
-        selected: true,
+        contentType: 'post',
       },
       {
-        id: '4',
+        id: '2',
         label: 'Guides',
-        selected: false,
+        contentType: 'guide',
       },
     ];
     
@@ -278,6 +303,15 @@ class Index extends React.Component {
     }; 
   }
 
+  state = {
+    sortByOptionId: '1',
+    articleCategoryOptionId: '1',
+    price: {
+      min: 10,
+      max: 500,
+    }
+  };
+
   render() {
     const {
       dataLoading,
@@ -286,6 +320,16 @@ class Index extends React.Component {
       sortByOptions,
       articleCategoryOptions,
     } = this.props;
+
+    const postsCorrectArticleType = posts.filter(({ contentType }) =>
+      contentType === articleCategoryOptions.find(({ id }) => id === this.state.articleCategoryOptionId).contentType);
+
+    const postsInPriceRange = postsCorrectArticleType.filter(({ price }) => price >= this.state.price.min && price <= this.state.price.max);
+
+    const sortedPosts = this.state.sortByOptionId === '1'
+      ? postsInPriceRange.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      : postsInPriceRange.sort((a, b) => b.rating.fields.quality - a.rating.fields.quality);
+    
     return <Wrapper>
         <Faded on={dataLoading} />
         <Header />
@@ -313,24 +357,45 @@ class Index extends React.Component {
           </Socials>
         </Section>
         <Section>
-          {/* <Actions>
+          <Actions>
             <SortBy>
-              {sortByOptions.map(({ id, label, selected }) => (
-                <SortByOption key={id} selected={selected}>
+              {sortByOptions.map(({ id, label }) => (
+                <SortByOption
+                  key={id}
+                  selected={this.state.sortByOptionId === id}
+                  onClick={() => this.setState({ sortByOptionId: id })}
+                >
                   {label}
                 </SortByOption>
               ))}
+              <PriceRangeWrapper>
+                <PriceRangeLabel>Price range $</PriceRangeLabel>
+                <Range
+                  pushable
+                  min={10}
+                  max={500}
+                  defaultValue={[10, 500]}
+                  tipFormatter={value => `$${value}`}
+                  onAfterChange={(values) => this.setState({ price: { min: values[0], max: values[1] }, })}
+                />
+              </PriceRangeWrapper>
             </SortBy>
             <ArticleCategories>
-              {articleCategoryOptions.map(({ id, label, selected }) => (
-                <ArticleCategoryOption key={id} selected={selected}>
+              {articleCategoryOptions.map(({ id, label }) => (
+                <ArticleCategoryOption
+                  key={id}
+                  selected={this.state.articleCategoryOptionId === id}
+                  onClick={() =>
+                    this.setState({ articleCategoryOptionId: id })
+                  }
+                >
                   {label}
                 </ArticleCategoryOption>
               ))}
             </ArticleCategories>
-          </Actions> */}
+          </Actions>
           <Posts>
-            {!dataLoading && posts && posts.length > 0 && posts.map(
+            {!dataLoading && sortedPosts && sortedPosts.length > 0 && sortedPosts.map(
                 post => {
                   const { id, name, slug, thumbnail, category } = post;
 
