@@ -584,7 +584,7 @@ class Post extends React.Component {
         .replace(/-/g, " ");
     
     const socialImage = post.image
-      ? `http://res.cloudinary.com/demo/image/fetch/w_1024,h_512,c_crop/${post.image.fields.file.url}`
+      ? `http://res.cloudinary.com/demo/image/fetch/w_1024,h_512,c_crop/https://${post.image.fields.file.url}`
       : "https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg";
 
     return existingPost ? <Wrapper>
