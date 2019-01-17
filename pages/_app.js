@@ -1,5 +1,5 @@
 import React from 'react';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import App, { Container } from 'next/app';
 
 import Footer from '../components/Footer';
@@ -52,6 +52,11 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const Main = styled.div`
+  background: #fafafa;
+  padding: 3.75rem;
+`;
+
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
@@ -67,13 +72,13 @@ class MyApp extends App {
       Component,
       pageProps,
     } = this.props;
-    return (
-      <Container>
-        <Component {...pageProps} />
+    return <Container>
+        <Main>
+          <Component {...pageProps} />
+        </Main>
         <Footer />
         <GlobalStyle />
-      </Container>
-    );
+      </Container>;
   }
 }
 

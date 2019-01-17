@@ -1,16 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Link from 'next/link';
 
 const Wrapper = styled.header`
-  background: #fafafa;
   width: 100%;
   z-index: 2;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    top: 0;
-  }
 `;
 
 const Container = styled.div`
@@ -20,10 +14,9 @@ const Container = styled.div`
   display: grid;
 
   @media (min-width: 768px) {
-    padding: 1rem 9rem;
     grid-auto-flow: column;
-    justify-content: flex-end;
-    grid-gap: 3rem;
+    justify-content: flex-start;
+    grid-gap: 2rem;
   }
 
   @media (max-width: 768px) {
@@ -33,55 +26,107 @@ const Container = styled.div`
   }
 `;
 
-const NavItemWrapper = styled.div`
-  color: rgba(0,0,0,0.8);
+const navItemStyles = css`
   cursor: pointer;
+`;
+
+const NavItemWrapper = styled.div`
+  ${navItemStyles};
+
+  line-height: 1em;
+  color: ${({ active }) => (active ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.5)')};
   font-size: 0.875em;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  text-transform: lowercase;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  line-height: 1;
 `;
 
-const NavItem = ({ children, ...props }) => (
+const NavItemTitleWrapper = styled.h4`
+  ${navItemStyles};
+
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 2.5em;
+  font-family: Raleway, sans-serif;
+  font-weight: 100;
+  margin-right: 1rem;
+`;
+
+const NavItemTitle = ({ children, ...props }) => (
   <Link {...props}>
-    <NavItemWrapper>
-      {children}
-    </NavItemWrapper>
+    <NavItemTitleWrapper>{children}</NavItemTitleWrapper>
   </Link>
 );
 
-const Button = styled.a`
-  text-decoration: none;
-  background: transparent;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 0;
-  padding: 1rem 1.75rem;
-  color: rgba(0,0,0,0.8);
-  text-transform: uppercase;
-  font-style: Raleway, sans-serif;
-  font-size: 0.875em;
-  letter-spacing: 1px;
-  font-weight: 400;
-  outline: none;
+const NavItem = ({ children, active, ...props }) => (
+  <Link {...props}>
+    <NavItemWrapper active={active}>{children}</NavItemWrapper>
+  </Link>
+);
+
+const Socials = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 2rem;
+  justify-content: flex-start;
+  justify-self: flex-end;
 `;
 
-const Header = () => (
+const UnstyledLink = styled.a`
+  color: inherit;
+  text-decoration: inherit;
+  display: flex;
+  align-items: center;
+`;
+
+const SocialButton = styled.button`
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+  outline: 0;
+  transition: background 0.2s ease;
+
+  &:hover {
+    .icon {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+`;
+
+const Icon = styled.span`
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1.125em;
+`;
+
+const Header = ({ router }) => (
   <Wrapper>
     <Container>
-      <NavItem href="/p/about">
-        Start here
+      <NavItemTitle href="/">FOUNT</NavItemTitle>
+      <NavItem href="/" active={router.asPath === '/'}>
+        posts
       </NavItem>
-      <NavItem href="/p/editorial-guidelines">
-        Become a reviewer
+      <NavItem href="/p/about" active={router.asPath === '/p/about'}>
+        about
       </NavItem>
-      <Button href="https://goo.gl/forms/o4UpWWkTHdLWLlOh2" target="_blank">
-        Submit your review
-      </Button>
+      <NavItem href="/p/editorial-guidelines" active={router.asPath === '/p/editorial-guidelines'}>
+        write for us
+      </NavItem>
+      <Socials>
+        <UnstyledLink href="https://www.instagram.com/fountpens">
+          <SocialButton color="red">
+            <Icon className="socicon-instagram icon" />
+          </SocialButton>
+        </UnstyledLink>
+        <UnstyledLink href="https://www.pinterest.com.au/0er9kbsq9bmwbsvhtawz6clyczq9rz">
+          <SocialButton color="orange">
+            <Icon className="socicon-pinterest icon" />
+          </SocialButton>
+        </UnstyledLink>
+      </Socials>
     </Container>
   </Wrapper>
 );

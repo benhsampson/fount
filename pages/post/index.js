@@ -13,10 +13,11 @@ import client from '../../constants/contentful-client';
 
 import Error from '../_error';
 
+import Header from '../../components/Header';
 import PostHeader from '../../components/PostHeader';
 
 const Wrapper = styled.div`
-  background: #FAFAFA;
+  background: #fafafa;
   display: grid;
   height: 100%;
   min-height: 100vh;
@@ -25,11 +26,11 @@ const Wrapper = styled.div`
 `;
 
 const Faded = styled.div`
-  background: #FAFAFA;
+  background: #fafafa;
   position: fixed;
   width: 100vw;
   height: 100vh;
-  opacity: ${({ on }) => on ? 1 : 0};
+  opacity: ${({ on }) => (on ? 1 : 0)};
   transition: opacity 0.2s ease;
   pointer-events: none;
   z-index: 99;
@@ -75,7 +76,7 @@ const Ratings = styled.div`
     margin-top: 4rem;
     opacity: ${({ show }) => (show ? 1 : 0)};
     max-width: 13rem;
-    right: calc((100vw - 46rem) / 2 - 15rem);
+    right: calc((100vw - 46rem) / 2 - 17rem);
   }
 `;
 
@@ -95,7 +96,7 @@ const RatingsHeader = styled.header`
 `;
 
 const RatingTitle = styled.h4`
-  color: rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   font-size: 0.75em;
   text-transform: uppercase;
   font-family: Raleway, sans-serif;
@@ -113,11 +114,12 @@ const ExpansionButton = styled.button`
   outline: 0;
   transition: background 0.2s ease;
   margin-right: -0.5rem;
-  transform: ${({ active }) => active ? 'rotate(180deg)' : 'none'};
+  transform: ${({ active }) => (active ? 'rotate(180deg)' : 'none')};
   transition: transform 0.2s ease;
 
-  &:hover, &:focus {
-    background: rgba(0,0,0,0.025);
+  &:hover,
+  &:focus {
+    background: rgba(0, 0, 0, 0.025);
   }
 `;
 
@@ -128,7 +130,7 @@ const RatingsContent = styled.div`
   transition: height 0.2s ease;
 
   @media (min-width: 768px) {
-    height: ${({ open }) => (open ? "auto" : 0)};
+    height: ${({ open }) => (open ? 'auto' : 0)};
     opacity: ${({ open }) => (open ? 1 : 0)};
   }
 `;
@@ -140,7 +142,7 @@ const Rating = styled.div`
 `;
 
 const RatingText = styled.p`
-  color: rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   font-size: 0.75em;
   text-transform: uppercase;
   font-family: Raleway, sans-serif;
@@ -157,7 +159,7 @@ const Bars = styled.div`
 
 const Bar = styled.div`
   height: 3px;
-  background: ${({ filled }) => filled ? '#579EF5' : '#E0E0E0'};
+  background: ${({ filled }) => (filled ? '#579EF5' : '#E0E0E0')};
 `;
 
 const Socials = styled.div`
@@ -180,10 +182,12 @@ const Socials = styled.div`
   }
 
   @media (min-width: 768px) {
+    background: #fafafa;
     top: 100px;
-    left: calc((100vw - 46rem) / 2 - 5rem);
+    left: calc((100vw - 46rem) / 2 - 7rem);
     opacity: ${({ show }) => (show ? 1 : 0)};
     grid-gap: 1rem;
+    border-radius: 1.25rem;
   }
 `;
 
@@ -198,17 +202,17 @@ const SocialButton = styled.button`
   transition: background 0.2s ease;
 
   &:hover {
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
   }
 `;
 
 const Icon = styled.span`
-  color: rgba(0,0,0,0.7);
+  color: rgba(0, 0, 0, 0.7);
   font-size: 1.5em;
 `;
 
 const Title = styled.h1`
-  color: #FFF;
+  color: #fff;
   font-family: Raleway, sans-serif;
   font-weight: 200;
   text-align: center;
@@ -225,7 +229,7 @@ const Title = styled.h1`
     content: '';
     width: 100%;
     height: 100%;
-    background: rgba(135,0,0,0.8);
+    background: rgba(135, 0, 0, 0.8);
     position: absolute;
     z-index: -1;
     padding: 0.5rem 2rem;
@@ -236,7 +240,7 @@ const Title = styled.h1`
 `;
 
 const MetaText = styled.div`
-  color: rgba(0,0,0,0.6);
+  color: rgba(0, 0, 0, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.75em;
@@ -251,7 +255,7 @@ const Category = styled.span`
 const Seperator = styled.span`
   height: auto;
   width: 1px;
-  background: #E0E0E0;
+  background: #e0e0e0;
   margin: 0 1rem;
 `;
 
@@ -270,6 +274,10 @@ const Content = styled.div`
     line-height: 1.3em;
   }
 
+  i {
+    font-style: italic;
+  }
+
   p {
     margin-bottom: 1.125rem;
   }
@@ -278,7 +286,8 @@ const Content = styled.div`
     margin-bottom: 0.75rem;
   }
 
-  p, li {
+  p,
+  li {
     color: rgba(0, 0, 0, 0.6);
     font-size: 1em;
     line-height: 1.8em;
@@ -303,7 +312,7 @@ const Content = styled.div`
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: -3px;
       width: 100%;
@@ -319,7 +328,8 @@ const Content = styled.div`
     }
   }
 
-  b, strong {
+  b,
+  strong {
     font-weight: 600;
   }
 
@@ -352,12 +362,9 @@ const Content = styled.div`
 
   table {
     background: #f5f5f5;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    margin: 0 -9rem;
 
     tr {
-      display: grid;
-
       th,
       td {
         font-size: 0.875em;
@@ -390,14 +397,13 @@ const Content = styled.div`
 
     &:after {
       text-align: center;
-      content: "...";
+      content: '...';
       color: rgba(0, 0, 0, 0.6);
       font-size: 2em;
       letter-spacing: 0.6em;
-      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-        "Segoe UI Symbol";
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol';
       margin-right: -12px;
     }
   }
@@ -405,16 +411,16 @@ const Content = styled.div`
 
 const CTA = styled.div`
   padding: 2rem;
-  background: #EEE;
+  background: #eee;
   margin: 4rem -2rem;
   border-radius: 2px;
-  border-top: 3px solid #F95F5F;
+  border-top: 3px solid #f95f5f;
   display: flex;
   flex-direction: column;
 `;
 
 const CTATitle = styled.h3`
-  color: rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   font-family: Raleway, sans-serif;
   font-size: 1.2em;
   margin-bottom: 0.5rem;
@@ -422,14 +428,14 @@ const CTATitle = styled.h3`
 `;
 
 const CTAText = styled.p`
-  color: rgba(0,0,0,0.6);
+  color: rgba(0, 0, 0, 0.6);
   font-size: 0.875em;
   margin-bottom: 1.5rem;
   text-align: center;
 `;
 
 const CTAButton = styled.a`
-  border: 1px solid #BD0000;
+  border: 1px solid #bd0000;
   border-radius: 1.5rem;
   cursor: pointer;
   height: 3rem;
@@ -437,7 +443,7 @@ const CTAButton = styled.a`
   font-family: Raleway, sans-serif;
   font-weight: 500;
   font-size: 0.75em;
-  color: #BD0000;
+  color: #bd0000;
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -446,9 +452,10 @@ const CTAButton = styled.a`
   text-align: center;
   text-decoration: none;
 
-  &:hover, &:focus {
-    background: #BD0000;
-    color: #FFF;
+  &:hover,
+  &:focus {
+    background: #bd0000;
+    color: #fff;
   }
 `;
 
@@ -486,6 +493,7 @@ const NewsletterButton = styled.button`
   background: transparent;
   border-radius: 2px;
   cursor: pointer;
+  z-index: -1;
 
   @media (max-width: 768px) {
     font-size: 1.125em;
@@ -523,32 +531,35 @@ class Post extends React.Component {
   static async getInitialProps(context) {
     const response = await client.getEntries();
 
-    const posts = response.items.map(({ fields, sys }) => {
-      const sentences = sbd.sentences(removeMd(fields.content));
-      return {
-        ...fields,
-        id: sys.id,
-        createdAt: sys.createdAt,
-        contentType: sys.contentType.sys.id,
-        shortened: `${sentences[0]}${sentences[1]}`.replace(/\r?\n|\r/g, '').replace(/  /g, ' '),
-      };
-    })
+    const posts = response.items
+      .map(({ fields, sys }) => {
+        const sentences = sbd.sentences(removeMd(fields.content));
+        return {
+          ...fields,
+          id: sys.id,
+          createdAt: sys.createdAt,
+          contentType: sys.contentType.sys.id,
+          shortened: `${sentences[0]}${sentences[1]}`.replace(/\r?\n|\r/g, '').replace(/  /g, ' ')
+        };
+      })
       .filter(({ contentType }) => contentType === 'post' || contentType === 'editorial')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const post = posts.find(({ slug }) => slug === context.query.slug);
-    
-    return { error: '', dataLoading: false, post, existingPost: !!post }; 
+
+    return { error: '', dataLoading: false, post, existingPost: !!post };
   }
 
   state = {
     window: {},
     imageLoading: true,
     scrollY: 0,
-    ratingOpen: true,
+    ratingOpen: true
   };
 
   componentDidMount() {
+    console.log(this.props.router);
+
     if (typeof window !== 'undefined') {
       this.setState({ window });
 
@@ -567,35 +578,50 @@ class Post extends React.Component {
   };
 
   render() {
-    const { router, error, dataLoading, post, existingPost } = this.props;
+    const { router, dataLoading, post, existingPost } = this.props;
 
     const disqusShortname = 'fountpens';
-    const disqusConfig = existingPost ? {
-      url: this.state.window.location && this.state.window.location.href || 'https://fountpens.com',
-      identifier: post.id,
-      title: post.name,
-    } : {};
+    const disqusConfig = existingPost
+      ? {
+          url:
+            (this.state.window.location && this.state.window.location.href) ||
+            'https://fountpens.com',
+          identifier: post.id,
+          title: post.name
+        }
+      : {};
 
-    {/* TODO: The content type is never "review" */}
-    const isReview = existingPost ? post.contentType === 'review' : false;
+    const title =
+      post.name || router.query.slug.replace(/\b\w/g, l => l.toUpperCase()).replace(/-/g, ' ');
 
-    const title = post.name || router.query.slug
-        .replace(/\b\w/g, l => l.toUpperCase())
-        .replace(/-/g, " ");
-
-    return existingPost ? <Wrapper>
+    return existingPost ? (
+      <Wrapper>
         <Head>
           <title>{title} — FOUNT</title>
           <meta name="description" content={post.shortened} />
 
           <meta name="twitter:title" content={title} />
           <meta name="twitter:description" content={post.shortened} />
-          <meta name="twitter:image" content={post.image ? post.image.fields.file.url : "https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg"} />
+          <meta
+            name="twitter:image"
+            content={
+              post.image
+                ? post.image.fields.file.url
+                : 'https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg'
+            }
+          />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={post.shortened} />
           <meta property="og:url" content="https://fountpens.com" />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={post.image ? post.image.fields.file.url : "https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg"} />
+          <meta
+            property="og:image"
+            content={
+              post.image
+                ? post.image.fields.file.url
+                : 'https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg'
+            }
+          />
         </Head>
         <Faded on={dataLoading} />
         {/* <Newsletter show={this.state.scrollY > 800 && !this.state.closedNewsletter}>
@@ -609,45 +635,69 @@ class Post extends React.Component {
             <NewsletterFormButton>Subscribe</NewsletterFormButton>
           </NewsletterForm>
         </Newsletter> */}
-        {post && post.id ? <React.Fragment>
+        {post && post.id ? (
+          <React.Fragment>
             {/* NEWSLETTER */}
-            <script async data-uid="0a20fd51cd" src="https://f.convertkit.com/0a20fd51cd/cf9f0df5f3.js" />
-            <PostHeader show={post.image ? this.state.scrollY > 400 : true} heading={post.name} scrollProgress={(this.state.scrollY + this.state.window.innerHeight) / this.state.window && this.state.window.document.body.clientHeight} />
-            {post && post.image ? <ImageWrapper>
-                <Image src={post.image.fields.file.url} alt={post.image.fields.title} onLoad={() => this.setState(
-                      { imageLoading: false }
-                    )} />
+            <script
+              async
+              data-uid="0a20fd51cd"
+              src="https://f.convertkit.com/0a20fd51cd/cf9f0df5f3.js"
+            />
+            <PostHeader
+              show={post.image ? this.state.scrollY > 400 : true}
+              heading={post.name}
+              scrollProgress={
+                (this.state.scrollY + this.state.window.innerHeight) / this.state.window &&
+                this.state.window.document.body.clientHeight
+              }
+            />
+            {post && post.image ? (
+              <ImageWrapper>
+                <Image
+                  src={post.image.fields.file.url}
+                  alt={post.image.fields.title}
+                  onLoad={() => this.setState({ imageLoading: false })}
+                />
                 <Title>{post.name}</Title>
-              </ImageWrapper> : ""}
+              </ImageWrapper>
+            ) : (
+              ''
+            )}
             <Container>
               <MetaText>
                 <Category>{post.category.fields.name}</Category>
                 <Seperator />
-                {moment(post.createdAt).format("MMM Do YY")}
+                {moment(post.createdAt).format('MMM Do YY')}
                 <Seperator />
-                {isReview && <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
-                    Comments
-                  </Disqus.CommentCount>}
+                <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
+                  Comments
+                </Disqus.CommentCount>
               </MetaText>
               <Content>
                 <Markdown source={post.content} />
               </Content>
-              {post && post.penName && post.affiliateLink ? <CTA>
+              {post && post.penName && post.affiliateLink ? (
+                <CTA>
                   <CTATitle>Like what you see?</CTATitle>
                   <CTAText>
-                    Using this link to purchase a pen supports the reviewer
-                    and FOUNT :)
+                    Using this link to purchase a pen supports the reviewer and FOUNT :)
                   </CTAText>
                   <CTAButton href={post.affiliateLink} target="_blank">
                     Buy a {post.penName}
                   </CTAButton>
-                </CTA> : ""}
-              {post && post.rating ? <Ratings show={this.state.scrollY > 280}>
+                </CTA>
+              ) : (
+                ''
+              )}
+              {post && post.rating ? (
+                <Ratings show={this.state.scrollY > 280}>
                   <RatingsHeader>
                     <RatingTitle>Rating</RatingTitle>
-                    <ExpansionButton title="See our quality and value ratings" active={this.state.ratingOpen} onClick={() => this.setState(
-                          { ratingOpen: !this.state.ratingOpen }
-                        )}>
+                    <ExpansionButton
+                      title="See our quality and value ratings"
+                      active={this.state.ratingOpen}
+                      onClick={() => this.setState({ ratingOpen: !this.state.ratingOpen })}
+                    >
                       <Icon className="material-icons">expand_more</Icon>
                     </ExpansionButton>
                   </RatingsHeader>
@@ -655,64 +705,81 @@ class Post extends React.Component {
                     <Rating>
                       <RatingText>Value</RatingText>
                       <Bars>
-                        {[...Array(post.rating.fields.value)].map(
-                          (x, number) => (
-                            <Bar filled key={number} />
-                          )
-                        )}
-                        {[...Array(5 - post.rating.fields.value)].map(
-                          (x, number) => (
-                            <Bar key={number} />
-                          )
-                        )}
+                        {[...Array(post.rating.fields.value)].map((x, number) => (
+                          <Bar filled key={number} />
+                        ))}
+                        {[...Array(5 - post.rating.fields.value)].map((x, number) => (
+                          <Bar key={number} />
+                        ))}
                       </Bars>
                     </Rating>
                     <Rating>
                       <RatingText>Quality</RatingText>
                       <Bars>
-                        {[...Array(post.rating.fields.quality)].map(
-                          (x, number) => (
-                            <Bar filled key={number} />
-                          )
-                        )}
-                        {[...Array(5 - post.rating.fields.quality)].map(
-                          (x, number) => (
-                            <Bar key={number} />
-                          )
-                        )}
+                        {[...Array(post.rating.fields.quality)].map((x, number) => (
+                          <Bar filled key={number} />
+                        ))}
+                        {[...Array(5 - post.rating.fields.quality)].map((x, number) => (
+                          <Bar key={number} />
+                        ))}
                       </Bars>
                     </Rating>
                   </RatingsContent>
                   <CTASidebar>
-                    <CTAText>Interested in buying? Using this link supports the reviewer.</CTAText>
-                    <CTAButton href={post.affiliateLink} target="_blank">Buy a {post.penName}</CTAButton>
+                    <CTAText>Want this? Using this link to buy supports the reviewer.</CTAText>
+                    <CTAButton href={post.affiliateLink} target="_blank">
+                      Buy a {post.penName}
+                    </CTAButton>
                   </CTASidebar>
                   <NewsletterBox>
                     <NewsletterPitch>
-                      Want to the most helpful reviews in your inbox every
-                      week?
+                      Want to the most helpful reviews in your inbox every week?
                     </NewsletterPitch>
-                    <UnstyledA data-formkit-toggle="0a20fd51cd" href="https://pages.convertkit.com/0a20fd51cd/cf9f0df5f3">
+                    <UnstyledA
+                      data-formkit-toggle="0a20fd51cd"
+                      href="https://pages.convertkit.com/0a20fd51cd/cf9f0df5f3"
+                    >
                       <NewsletterButton>Sign up</NewsletterButton>
                     </UnstyledA>
                   </NewsletterBox>
-                </Ratings> : ""}
+                </Ratings>
+              ) : (
+                ''
+              )}
               <Socials show={this.state.scrollY > 280}>
-                <TwitterShareButton title={post.name} url={(this.state.window.location && this.state.window.location.href) || "https://fountpens.com"}>
+                <TwitterShareButton
+                  title={post.name}
+                  url={
+                    (this.state.window.location && this.state.window.location.href) ||
+                    'https://fountpens.com'
+                  }
+                >
                   <SocialButton title="Tweet to your followers">
                     <Icon className="socicon-twitter" />
                   </SocialButton>
                 </TwitterShareButton>
-                <FacebookShareButton quote={post.name} url={(this.state.window.location && this.state.window.location.href) || "https://fountpens.com"}>
+                <FacebookShareButton
+                  quote={post.name}
+                  url={
+                    (this.state.window.location && this.state.window.location.href) ||
+                    'https://fountpens.com'
+                  }
+                >
                   <SocialButton title="Post to your friends">
                     <Icon className="socicon-facebook" />
                   </SocialButton>
                 </FacebookShareButton>
               </Socials>
-              {isReview && <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />}
+              <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
             </Container>
-          </React.Fragment> : ""}
-      </Wrapper> : <Error />;
+          </React.Fragment>
+        ) : (
+          ''
+        )}
+      </Wrapper>
+    ) : (
+      <Error />
+    );
   }
 }
 

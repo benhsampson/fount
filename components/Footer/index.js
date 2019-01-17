@@ -3,39 +3,39 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 
 const Wrapper = styled.footer`
-	background: #EEE;
-    
-	@media (min-width: 768px) {
-		padding: 3rem 6rem;
-	}
-    
-	@media (max-width: 768px) {
-		padding: 3rem;
-	}
+  background: #eee;
+
+  @media (min-width: 768px) {
+    padding: 3rem 6rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem;
+  }
 `;
 
 const Container = styled.div`
-	max-width: 1200px;
-	width: 100%;
-	margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const Sections = styled.div`
-	display: grid;
-	
-	@media (min-width: 768px) {
-		grid-auto-flow: column;
-		grid-gap: 3rem;
-	}
-	
-	@media (max-width: 768px) {
-		grid-gap: 1.5rem;
-	}
+  display: grid;
+
+  @media (min-width: 768px) {
+    grid-auto-flow: column;
+    grid-gap: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-gap: 1.5rem;
+  }
 `;
 
 const Section = styled.div`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Heading = styled.h6`
@@ -49,13 +49,13 @@ const Heading = styled.h6`
 `;
 
 const Subheading = styled.p`
-	color: rgba(0,0,0,0.6);
-	line-height: 1.8em;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.8em;
 `;
 
 const Links = styled.ul`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const LinkItem = styled.li`
@@ -73,20 +73,20 @@ const LinkItem = styled.li`
 `;
 
 const Link = ({ children, ...props }) => (
-	<NextLink {...props}>
-		<LinkItem>{children}</LinkItem>
-	</NextLink>
+  <NextLink {...props}>
+    <LinkItem>{children}</LinkItem>
+  </NextLink>
 );
 
 const UnstyledLink = styled.a`
-	color: inherit;
-	text-decoration: inherit;
+  color: inherit;
+  text-decoration: inherit;
 `;
 
 const LinkHref = ({ children, ...props }) => (
-	<UnstyledLink {...props}>
-		<LinkItem>{children}</LinkItem>
-	</UnstyledLink>
+  <UnstyledLink {...props}>
+    <LinkItem>{children}</LinkItem>
+  </UnstyledLink>
 );
 
 const Footer = () => (
@@ -106,19 +106,12 @@ const Footer = () => (
           <Links>
             <Link href="/p/about">About</Link>
             <Link href="/p/our-difference">The FOUNT Difference</Link>
-            {/* TODO: This */}
-            {/* <Link href="/p/fountain-pens-101">Fountain Pens 101</Link> */}
-            {/* TODO: This */}
-            {/* <Link href="/p/glossary">Glossary of Terms</Link> */}
           </Links>
         </Section>
         <Section>
           <Heading>Reviewers</Heading>
           <Links>
-            <LinkHref
-              href="https://goo.gl/forms/o4UpWWkTHdLWLlOh2"
-              target="_blank"
-            >
+            <LinkHref href="https://goo.gl/forms/o4UpWWkTHdLWLlOh2" target="_blank">
               Submit a review
             </LinkHref>
             <Link href="/p/editorial-guidelines">Editorial guidelines</Link>
@@ -128,9 +121,7 @@ const Footer = () => (
         <Section>
           <Heading>Socials</Heading>
           <Links>
-            <LinkHref href="https://www.instagram.com/fountpens">
-              Instagram
-            </LinkHref>
+            <LinkHref href="https://www.instagram.com/fountpens">Instagram</LinkHref>
             <LinkHref href="https://www.pinterest.com.au/0er9kbsq9bmwbsvhtawz6clyczq9rz">
               Pinterest
             </LinkHref>
