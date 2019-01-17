@@ -591,8 +591,19 @@ class Post extends React.Component {
         }
       : {};
 
+    {
+      /* TODO: The content type is never "review" */
+    }
+    const isReview = existingPost ? post.contentType === 'review' : false;
+
     const title =
       post.name || router.query.slug.replace(/\b\w/g, l => l.toUpperCase()).replace(/-/g, ' ');
+
+    const socialImage = post.image
+      ? `http://res.cloudinary.com/demo/image/fetch/w_1024,h_512,c_crop/https://${
+          post.image.fields.file.url
+        }`
+      : 'https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg';
 
     return existingPost ? (
       <Wrapper>
@@ -602,26 +613,12 @@ class Post extends React.Component {
 
           <meta name="twitter:title" content={title} />
           <meta name="twitter:description" content={post.shortened} />
-          <meta
-            name="twitter:image"
-            content={
-              post.image
-                ? post.image.fields.file.url
-                : 'https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg'
-            }
-          />
+          <meta name="twitter:image" content={socialImage} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={post.shortened} />
           <meta property="og:url" content="https://fountpens.com" />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:image"
-            content={
-              post.image
-                ? post.image.fields.file.url
-                : 'https://cdn.pixabay.com/photo/2017/03/02/15/12/letters-2111531_960_720.jpg'
-            }
-          />
+          <meta property="og:image" content={socialImage} />
         </Head>
         <Faded on={dataLoading} />
         {/* <Newsletter show={this.state.scrollY > 800 && !this.state.closedNewsletter}>
