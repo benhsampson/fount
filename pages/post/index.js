@@ -18,7 +18,8 @@ import PostHeader from '../../components/PostHeader';
 
 const Wrapper = styled.div`
   background: #fafafa;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   min-height: 100vh;
   width: 100%;
@@ -56,10 +57,21 @@ const Image = styled.img`
 
 const Container = styled.div`
   max-width: 46rem;
-  padding: 7rem 1.5rem 6rem;
   margin: 0 auto;
   width: 100%;
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: 7rem 0 6rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 7rem 1.5rem 6rem;
+  }
+
+  #disqus_thread {
+    margin-top: 4rem;
+  }
 `;
 
 const Ratings = styled.div`
@@ -267,14 +279,22 @@ const Content = styled.div`
   h5,
   h6 {
     color: rgba(0, 0, 0, 0.8);
-    font-size: 1.875em;
     font-weight: 600;
     text-align: center;
     margin-bottom: 1.5rem;
     line-height: 1.3em;
+
+    @media (max-width: 768px) {
+      font-size: 1.5em;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 1.875em;
+    }
   }
 
-  i {
+  i,
+  em {
     font-style: italic;
   }
 
@@ -608,7 +628,7 @@ class Post extends React.Component {
     return existingPost ? (
       <Wrapper>
         <Head>
-          <title>{title} — FOUNT</title>
+          <title>{title} – FOUNT</title>
           <meta name="description" content={post.shortened} />
 
           <meta name="twitter:title" content={title} />

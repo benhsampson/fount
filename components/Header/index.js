@@ -70,7 +70,14 @@ const Socials = styled.div`
   grid-auto-flow: column;
   grid-gap: 2rem;
   justify-content: flex-start;
-  justify-self: flex-end;
+
+  @media (max-width: 768px) {
+    justify-self: center;
+  }
+
+  @media (min-width: 768px) {
+    justify-self: flex-end;
+  }
 `;
 
 const UnstyledLink = styled.a`

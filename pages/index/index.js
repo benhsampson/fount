@@ -154,9 +154,12 @@ const Text = styled.h2`
 const Posts = styled.div`
   display: grid;
   grid-gap: 0.625rem;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   grid-auto-rows: 10px;
   max-width: 100%;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
 `;
 
 const Post = styled.div`
@@ -183,7 +186,6 @@ const PostImage = styled.img`
 `;
 
 const PostOverlay = styled.div`
-  background: rgba(0, 0, 0, 0.4);
   position: absolute;
   width: 100%;
   overflow: hidden;
@@ -193,11 +195,13 @@ const PostOverlay = styled.div`
   flex-direction: column;
 
   @media (max-width: 768px) {
+    background: rgba(0, 0, 0, 0.6);
     padding: 1rem 0.5rem;
     bottom: 0;
   }
 
   @media (min-width: 768px) {
+    background: rgba(0, 0, 0, 0.4);
     height: 100%;
     opacity: 0;
   }

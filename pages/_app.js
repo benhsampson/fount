@@ -54,31 +54,36 @@ const GlobalStyle = createGlobalStyle`
 
 const Main = styled.div`
   background: #fafafa;
-  padding: 3.75rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 3.75rem;
+  }
 `;
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
-    if (Component.getInitialProps)
-      pageProps = await Component.getInitialProps(ctx);
+    if (Component.getInitialProps) pageProps = await Component.getInitialProps(ctx);
 
     return { pageProps };
   }
 
   render() {
-    const {
-      Component,
-      pageProps,
-    } = this.props;
-    return <Container>
+    const { Component, pageProps } = this.props;
+    return (
+      <Container>
         <Main>
           <Component {...pageProps} />
         </Main>
         <Footer />
         <GlobalStyle />
-      </Container>;
+      </Container>
+    );
   }
 }
 
