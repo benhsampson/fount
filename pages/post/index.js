@@ -636,7 +636,6 @@ class Post extends React.Component {
           <meta name="twitter:image" content={socialImage} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={post.shortened} />
-          <meta property="og:url" content="https://fountpens.com" />
           <meta property="og:type" content="website" />
           <meta property="og:image" content={socialImage} />
         </Head>
